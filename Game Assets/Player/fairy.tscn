@@ -1,0 +1,82 @@
+[gd_scene load_steps=9 format=3 uid="uid://dvr48cjreu7we"]
+
+[ext_resource type="Script" path="res://Game Assets/Player/fairy.gd" id="1_lt3j0"]
+[ext_resource type="Texture2D" uid="uid://0gmfj86pe88u" path="res://Game Assets/Player/Fairy_Light.png" id="1_npsxy"]
+[ext_resource type="Texture2D" uid="uid://c4cs7b2nv4bdt" path="res://Game Assets/Lights/Light_Round_64.png" id="2_hoohr"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_oerf6"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+spread = 180.0
+gravity = Vector3(0, 10, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+
+[sub_resource type="Animation" id="Animation_2lsfj"]
+resource_name = "Flap"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_ygd3j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kdpc0"]
+_data = {
+"Flap": SubResource("Animation_2lsfj"),
+"RESET": SubResource("Animation_ygd3j")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_08yqw"]
+radius = 4.0
+
+[node name="Fairy" type="CharacterBody2D"]
+script = ExtResource("1_lt3j0")
+
+[node name="sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_npsxy")
+hframes = 2
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+range_layer_min = -512
+range_layer_max = 512
+texture = ExtResource("2_hoohr")
+
+[node name="shine_particle" type="GPUParticles2D" parent="."]
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_oerf6")
+lifetime = 0.5
+
+[node name="animation" type="AnimationPlayer" parent="."]
+autoplay = "Flap"
+libraries = {
+"": SubResource("AnimationLibrary_kdpc0")
+}
+
+[node name="collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_08yqw")

@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://8rrxou0g68wg"]
+
+[ext_resource type="PackedScene" uid="uid://c318fd7f52rg2" path="res://Game Assets/GPUParticles/instant_particles.tscn" id="1_bfuoi"]
+[ext_resource type="Texture2D" uid="uid://kfju8lpw5083" path="res://Game Assets/GPUParticles/enemy_dark_slime_death.png" id="2_uywi5"]
+
+[sub_resource type="Gradient" id="Gradient_ha4w2"]
+offsets = PackedFloat32Array(0, 0.511364, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_divuj"]
+gradient = SubResource("Gradient_ha4w2")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ebxsu"]
+particle_flag_disable_z = true
+spread = 180.0
+gravity = Vector3(0, 98, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 200.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+damping_min = 50.0
+damping_max = 100.0
+color_ramp = SubResource("GradientTexture1D_divuj")
+turbulence_enabled = true
+turbulence_noise_scale = 3.0
+
+[node name="Instant_Particles" instance=ExtResource("1_bfuoi")]
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_ebxsu")
+texture = ExtResource("2_uywi5")
+lifetime = 0.5
+explosiveness = 1.0
+
+[node name="Timer" parent="." index="0"]
+wait_time = 0.5

@@ -1,0 +1,190 @@
+[gd_scene load_steps=24 format=3 uid="uid://dvbuojxnkpwe4"]
+
+[ext_resource type="PackedScene" uid="uid://c833y3um0q226" path="res://Game Assets/Entities/Enemies/enemy.tscn" id="1_xoaat"]
+[ext_resource type="Script" path="res://Game Assets/Entities/Enemies/enemy_spitter.gd" id="2_5v1vr"]
+[ext_resource type="Texture2D" uid="uid://b7gox54v04s15" path="res://Game Assets/Entities/Enemies/enemy_spitter.png" id="2_mrvhp"]
+[ext_resource type="Material" uid="uid://t1h7tc2lrfn7" path="res://Game Assets/Entities/entity_flash_shader.tres" id="3_dd47k"]
+[ext_resource type="Script" path="res://Game Assets/Entities/Enemies/state_enemy_spitter_idle_stop.gd" id="4_a2rsh"]
+[ext_resource type="Script" path="res://Game Assets/Entities/Enemies/state_enemy_spitter_idle_move.gd" id="5_hwdkx"]
+[ext_resource type="Script" path="res://Game Assets/Entities/Enemies/state_enemy_spitter_alert.gd" id="6_jncs6"]
+[ext_resource type="Script" path="res://Game Assets/Entities/Enemies/state_enemy_spitter_spit.gd" id="7_lyxtp"]
+[ext_resource type="PackedScene" uid="uid://cwihfg3ax5va" path="res://Game Assets/UI/emotion.tscn" id="9_yiyu8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w3jv8"]
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1g8bo"]
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wx70v"]
+radius = 16.0
+
+[sub_resource type="Animation" id="Animation_tpgpg"]
+resource_name = "Idle"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_ckvya"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_yeceo"]
+resource_name = "Spit"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"spit_to_player"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gvl0p"]
+_data = {
+"Idle": SubResource("Animation_tpgpg"),
+"RESET": SubResource("Animation_ckvya"),
+"Spit": SubResource("Animation_yeceo")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hbjmi"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_i02ui"]
+animation = &"Spit"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nph74"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_s7hq8"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ylkvd"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_6wv1f"]
+states/Idle/node = SubResource("AnimationNodeAnimation_hbjmi")
+states/Idle/position = Vector2(421.333, 99.8107)
+states/Spit/node = SubResource("AnimationNodeAnimation_i02ui")
+states/Spit/position = Vector2(641.333, 100.239)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_nph74"), "Idle", "Spit", SubResource("AnimationNodeStateMachineTransition_s7hq8"), "Spit", "Idle", SubResource("AnimationNodeStateMachineTransition_ylkvd")]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_au3s3"]
+
+[node name="Entity" instance=ExtResource("1_xoaat")]
+script = ExtResource("2_5v1vr")
+idle_stop_timer_min = 2.0
+idle_stop_timer_max = 3.0
+idle_move_timer_min = 2.0
+idle_move_timer_max = 3.0
+detect_player_distance = 200.0
+lose_player_distance = 300.0
+chase_player_distance = 80.0
+flee_from_player_distance = 64.0
+idle_move_acceleration = 650.0
+alert_move_acceleration = 800.0
+spit_speed = 200.0
+spit_delay = 3.0
+max_HP = 5
+
+[node name="sprite" parent="." index="0"]
+material = ExtResource("3_dd47k")
+texture = ExtResource("2_mrvhp")
+hframes = 4
+vframes = 3
+
+[node name="spit_origin" type="Marker2D" parent="sprite" index="0"]
+position = Vector2(-16, 4)
+
+[node name="collision" parent="." index="1"]
+shape = SubResource("CircleShape2D_w3jv8")
+
+[node name="collision" parent="water_check" index="0"]
+shape = SubResource("CircleShape2D_1g8bo")
+
+[node name="collision" parent="hitbox" index="0"]
+shape = SubResource("CircleShape2D_wx70v")
+
+[node name="States" type="Node" parent="." index="4"]
+
+[node name="Idle_Stop" type="Node" parent="States" index="0"]
+script = ExtResource("4_a2rsh")
+
+[node name="Idle_Move" type="Node" parent="States" index="1"]
+script = ExtResource("5_hwdkx")
+
+[node name="Alert" type="Node" parent="States" index="2"]
+script = ExtResource("6_jncs6")
+
+[node name="Spit" type="Node" parent="States" index="3"]
+script = ExtResource("7_lyxtp")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="5"]
+libraries = {
+"": SubResource("AnimationLibrary_gvl0p")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="6"]
+tree_root = SubResource("AnimationNodeStateMachine_6wv1f")
+anim_player = NodePath("../AnimationPlayer")
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_au3s3")
+
+[node name="Raycasts" type="Node2D" parent="." index="7"]
+
+[node name="Down" type="RayCast2D" parent="Raycasts" index="0"]
+target_position = Vector2(0, 24)
+collision_mask = 2
+
+[node name="Up" type="RayCast2D" parent="Raycasts" index="1"]
+target_position = Vector2(0, -24)
+collision_mask = 2
+
+[node name="Left" type="RayCast2D" parent="Raycasts" index="2"]
+target_position = Vector2(-24, 0)
+collision_mask = 2
+
+[node name="Right" type="RayCast2D" parent="Raycasts" index="3"]
+target_position = Vector2(24, 0)
+collision_mask = 2
+
+[node name="Emotion" parent="." index="8" instance=ExtResource("9_yiyu8")]
+visible = false
+position = Vector2(0, -24)

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://0ydni3qdf1ev"]
+
+[ext_resource type="PackedScene" uid="uid://c318fd7f52rg2" path="res://Game Assets/GPUParticles/instant_particles.tscn" id="1_fdrsa"]
+[ext_resource type="Material" uid="uid://g2d1sjx5nqil" path="res://Game Assets/GPUParticles/splash.tres" id="2_3utp1"]
+
+[node name="Instant_Particles" instance=ExtResource("1_fdrsa")]
+amount = 32
+process_material = ExtResource("2_3utp1")
+lifetime = 0.5
+explosiveness = 1.0
+
+[node name="Timer" parent="." index="0"]
+wait_time = 0.5

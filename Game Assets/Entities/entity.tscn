@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://b62eoj32ohxfc"]
+
+[ext_resource type="Script" path="res://Game Assets/Entities/entity.gd" id="1_ugf5u"]
+
+[sub_resource type="Animation" id="Animation_1s782"]
+resource_name = "Hit Flash"
+length = 0.5
+
+[sub_resource type="Animation" id="Animation_lww3q"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7netl"]
+_data = {
+"Hit Flash": SubResource("Animation_1s782"),
+"RESET": SubResource("Animation_lww3q")
+}
+
+[node name="Entity" type="CharacterBody2D"]
+z_index = -1
+collision_layer = 256
+collision_mask = 6
+script = ExtResource("1_ugf5u")
+
+[node name="sprite" type="Sprite2D" parent="."]
+
+[node name="flash_animation" type="AnimationPlayer" parent="sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_7netl")
+}
+
+[node name="collision" type="CollisionShape2D" parent="."]
+
+[node name="water_check" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="collision" type="CollisionShape2D" parent="water_check"]

@@ -1,0 +1,680 @@
+[gd_scene load_steps=35 format=3 uid="uid://wo1cvonsap1c"]
+
+[ext_resource type="Script" path="res://Game Assets/Game/game.gd" id="1_1lpup"]
+[ext_resource type="Theme" uid="uid://cy1syeiird87e" path="res://Game Assets/UI/Themes/default_unicode.tres" id="2_ylwku"]
+[ext_resource type="Texture2D" uid="uid://c3843ald78teg" path="res://Game Assets/UI/Bar_Frame_HPMP.png" id="3_2tbfc"]
+[ext_resource type="Shader" path="res://Game Assets/Game/bar_shader.gdshader" id="3_106yr"]
+[ext_resource type="Texture2D" uid="uid://c6g17ofbynml7" path="res://Game Assets/UI/Bar_HP.png" id="4_ryhgj"]
+[ext_resource type="FontFile" uid="uid://c2gxae4xgxkod" path="res://Game Assets/UI/Themes/Fonts/SymphonyoftheNightfont.ttf" id="5_cpvnd"]
+[ext_resource type="Script" path="res://Game Assets/Game/pause_menu.gd" id="6_g4g7d"]
+[ext_resource type="Script" path="res://Game Assets/Game/world_map.gd" id="6_mghty"]
+[ext_resource type="Texture2D" uid="uid://dmlnytn08deov" path="res://Game Assets/UI/Bar_MP.png" id="6_ssv38"]
+[ext_resource type="Texture2D" uid="uid://bkx5lhpe2enhe" path="res://Game Assets/UI/Bar_Berserk.png" id="7_1xbea"]
+[ext_resource type="Shader" path="res://Game Assets/Game/bar_berserk.gdshader" id="7_bbmll"]
+[ext_resource type="Texture2D" uid="uid://dtw46ruooavay" path="res://Game Assets/UI/Button_Pause.png" id="8_fcxoq"]
+[ext_resource type="Texture2D" uid="uid://bx3764jmdnxxh" path="res://Game Assets/UI/Button_Regular.png" id="8_gutub"]
+[ext_resource type="Texture2D" uid="uid://0foflxyikpdu" path="res://Game Assets/UI/Button_Pause_Pressed.png" id="9_f1sle"]
+[ext_resource type="Texture2D" uid="uid://bovy77wnwdf41" path="res://Game Assets/UI/Button_Regular_Pressed.png" id="9_udh4n"]
+[ext_resource type="Texture2D" uid="uid://s2aqoy8b3gvg" path="res://Game Assets/UI/Button_Pause_Highlight.png" id="10_qfgbi"]
+[ext_resource type="Texture2D" uid="uid://oagyb6osp6iw" path="res://Game Assets/UI/Prompt_F_0.png" id="10_xc8f1"]
+[ext_resource type="Texture2D" uid="uid://ct3axp3bta2gk" path="res://Game Assets/UI/Prompt_F_1.png" id="11_0vjlj"]
+[ext_resource type="Texture2D" uid="uid://b2cj0m6820fx8" path="res://Game Assets/UI/Button_Regular_Highlight.png" id="14_3lnse"]
+
+[sub_resource type="Animation" id="Animation_nr5se"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI_Canvas/UI/Transition_Black_Screen:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_tfwxu"]
+resource_name = "Transition"
+length = 0.4
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"set_stage_transition"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI_Canvas/UI/Transition_Black_Screen:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_q4fxn"]
+_data = {
+"RESET": SubResource("Animation_nr5se"),
+"Transition": SubResource("Animation_tfwxu")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4vh8m"]
+shader = ExtResource("3_106yr")
+shader_parameter/tint_color = Color(1, 1, 1, 0)
+
+[sub_resource type="Gradient" id="Gradient_4yma1"]
+offsets = PackedFloat32Array(0, 0.120253, 0.246835, 0.417722, 0.64557, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.501961, 0.25098, 0.25098, 0.25098, 1, 1, 0.25098, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_385xw"]
+gradient = SubResource("Gradient_4yma1")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_o4o6v"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8xbiq"]
+seamless = true
+noise = SubResource("FastNoiseLite_o4o6v")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_744qf"]
+seed = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3d15n"]
+seamless = true
+noise = SubResource("FastNoiseLite_744qf")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nce7x"]
+shader = ExtResource("7_bbmll")
+shader_parameter/noise0_velocity = Vector2(-0.5, 0.5)
+shader_parameter/noise1_velocity = Vector2(0.5, 0.5)
+shader_parameter/flame_active = false
+shader_parameter/flame_color = SubResource("GradientTexture1D_385xw")
+shader_parameter/noise0 = SubResource("NoiseTexture2D_8xbiq")
+shader_parameter/noise1 = SubResource("NoiseTexture2D_3d15n")
+
+[sub_resource type="Animation" id="Animation_kakl8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/tint_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_y7rf4"]
+resource_name = "White_Tint"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/tint_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7qoha"]
+_data = {
+"RESET": SubResource("Animation_kakl8"),
+"White_Tint": SubResource("Animation_y7rf4")
+}
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_u7r4y"]
+frames = 2
+frame_0/texture = ExtResource("10_xc8f1")
+frame_0/duration = 0.2
+frame_1/texture = ExtResource("11_0vjlj")
+frame_1/duration = 0.2
+
+[node name="Game" type="Node"]
+script = ExtResource("1_1lpup")
+
+[node name="Stage" type="CanvasModulate" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+color = Color(0.470588, 0.415686, 0.560784, 1)
+
+[node name="Stage_Transition_Player" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_q4fxn")
+}
+
+[node name="UI_Canvas" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="UI_Canvas"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_ylwku")
+
+[node name="Transition_Black_Screen" type="ColorRect" parent="UI_Canvas/UI"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Bar_Frame_HPMP" type="TextureRect" parent="UI_Canvas/UI"]
+light_mask = 4
+visibility_layer = 4
+material = SubResource("ShaderMaterial_4vh8m")
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 144.0
+offset_bottom = 48.0
+texture = ExtResource("3_2tbfc")
+
+[node name="Bar_HP" type="TextureProgressBar" parent="UI_Canvas/UI/Bar_Frame_HPMP"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 0
+offset_left = 46.0
+offset_top = 13.0
+offset_right = 126.0
+offset_bottom = 23.0
+max_value = 80.0
+value = 40.0
+texture_progress = ExtResource("4_ryhgj")
+
+[node name="Text_HP" type="Label" parent="UI_Canvas/UI/Bar_Frame_HPMP"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 0
+offset_left = 32.0
+offset_top = -1.0
+offset_right = 64.0
+offset_bottom = 18.0
+theme_override_fonts/font = ExtResource("5_cpvnd")
+text = "123"
+horizontal_alignment = 2
+
+[node name="Bar_MP" type="TextureProgressBar" parent="UI_Canvas/UI/Bar_Frame_HPMP"]
+layout_mode = 0
+offset_left = 37.0
+offset_top = 24.0
+offset_right = 117.0
+offset_bottom = 30.0
+max_value = 80.0
+value = 50.0
+texture_progress = ExtResource("6_ssv38")
+
+[node name="Bar_Berserk" type="TextureProgressBar" parent="UI_Canvas/UI/Bar_Frame_HPMP"]
+z_index = -1
+material = SubResource("ShaderMaterial_nce7x")
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+value = 50.0
+fill_mode = 3
+texture_progress = ExtResource("7_1xbea")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI_Canvas/UI/Bar_Frame_HPMP"]
+libraries = {
+"": SubResource("AnimationLibrary_7qoha")
+}
+
+[node name="Berserk_Prompt" type="TextureRect" parent="UI_Canvas/UI/Bar_Frame_HPMP"]
+visible = false
+layout_mode = 0
+offset_left = 8.0
+offset_top = 32.0
+offset_right = 24.0
+offset_bottom = 48.0
+texture = SubResource("AnimatedTexture_u7r4y")
+
+[node name="Pause_Menu" type="ColorRect" parent="UI_Canvas/UI"]
+process_mode = 3
+visible = false
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.501961)
+script = ExtResource("6_g4g7d")
+
+[node name="World_Map" type="Control" parent="UI_Canvas/UI/Pause_Menu"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_mghty")
+
+[node name="Button_Return_Map" type="TextureButton" parent="UI_Canvas/UI/Pause_Menu/World_Map"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -624.0
+offset_top = -48.0
+offset_right = -496.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("8_gutub")
+texture_pressed = ExtResource("9_udh4n")
+
+[node name="Label" type="Label" parent="UI_Canvas/UI/Pause_Menu/World_Map/Button_Return_Map"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "戻る"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="UI_Canvas/UI/Pause_Menu/World_Map"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -40.0
+offset_top = 24.0
+offset_right = 40.0
+offset_bottom = 43.0
+grow_horizontal = 2
+text = "ワールドマップ"
+horizontal_alignment = 1
+
+[node name="Default" type="Control" parent="UI_Canvas/UI/Pause_Menu"]
+visible = false
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UI_Canvas/UI/Pause_Menu/Default"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_top = 64.0
+offset_right = 64.0
+offset_bottom = 83.0
+grow_horizontal = 2
+text = "ゲームは一時停止されています"
+horizontal_alignment = 1
+
+[node name="Button_Resume" type="TextureButton" parent="UI_Canvas/UI/Pause_Menu/Default"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -44.0
+offset_right = 64.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("8_gutub")
+texture_pressed = ExtResource("9_udh4n")
+
+[node name="Label" type="Label" parent="UI_Canvas/UI/Pause_Menu/Default/Button_Resume"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "続ける"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button_Map" type="TextureButton" parent="UI_Canvas/UI/Pause_Menu/Default"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = 12.0
+offset_right = 64.0
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("8_gutub")
+texture_pressed = ExtResource("9_udh4n")
+
+[node name="Label" type="Label" parent="UI_Canvas/UI/Pause_Menu/Default/Button_Map"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "マップ"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button_Menu" type="TextureButton" parent="UI_Canvas/UI/Pause_Menu/Default"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = 68.0
+offset_right = 64.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("8_gutub")
+texture_pressed = ExtResource("9_udh4n")
+
+[node name="Label" type="Label" parent="UI_Canvas/UI/Pause_Menu/Default/Button_Menu"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "メニュー"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Goto_Menu_Confirm" type="Control" parent="UI_Canvas/UI/Pause_Menu"]
+visible = false
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UI_Canvas/UI/Pause_Menu/Goto_Menu_Confirm"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_top = 128.0
+offset_right = 64.0
+offset_bottom = 147.0
+grow_horizontal = 2
+text = "メニューに戻りますか？"
+horizontal_alignment = 1
+
+[node name="Button_Menu_Yes" type="TextureButton" parent="UI_Canvas/UI/Pause_Menu/Goto_Menu_Confirm"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -144.0
+offset_top = -20.0
+offset_right = -16.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("8_gutub")
+texture_pressed = ExtResource("9_udh4n")
+
+[node name="Label" type="Label" parent="UI_Canvas/UI/Pause_Menu/Goto_Menu_Confirm/Button_Menu_Yes"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "はい"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button_Menu_No" type="TextureButton" parent="UI_Canvas/UI/Pause_Menu/Goto_Menu_Confirm"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -20.0
+offset_right = 144.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("8_gutub")
+texture_pressed = ExtResource("9_udh4n")
+
+[node name="Label" type="Label" parent="UI_Canvas/UI/Pause_Menu/Goto_Menu_Confirm/Button_Menu_No"]
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "いいえ"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Pause_Button" type="TextureButton" parent="UI_Canvas/UI"]
+process_mode = 3
+light_mask = 4
+visibility_layer = 4
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -24.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 24.0
+grow_horizontal = 0
+texture_normal = ExtResource("8_fcxoq")
+texture_pressed = ExtResource("9_f1sle")
+texture_hover = ExtResource("10_qfgbi")
+
+[node name="Game_Over" type="ColorRect" parent="UI_Canvas/UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.501961)
+
+[node name="Label" type="Label" parent="UI_Canvas/UI/Game_Over"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -52.0
+offset_right = 40.0
+offset_bottom = -33.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Game Over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Retry" type="TextureButton" parent="UI_Canvas/UI/Game_Over"]
+layout_mode = 0
+offset_left = 176.0
+offset_top = 192.0
+offset_right = 304.0
+offset_bottom = 224.0
+texture_normal = ExtResource("8_gutub")
+texture_pressed = ExtResource("9_udh4n")
+texture_hover = ExtResource("14_3lnse")
+
+[node name="Label" type="Label" parent="UI_Canvas/UI/Game_Over/Retry"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -8.0
+offset_right = 20.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "リトライ"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Return_Menu" type="TextureButton" parent="UI_Canvas/UI/Game_Over"]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 192.0
+offset_right = 464.0
+offset_bottom = 224.0
+texture_normal = ExtResource("8_gutub")
+texture_pressed = ExtResource("9_udh4n")
+texture_hover = ExtResource("14_3lnse")
+
+[node name="Label" type="Label" parent="UI_Canvas/UI/Game_Over/Return_Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -8.0
+offset_right = 20.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "メニューに戻る"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BGM_Player" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+volume_db = -10.0
+
+[connection signal="pressed" from="UI_Canvas/UI/Pause_Menu/World_Map/Button_Return_Map" to="UI_Canvas/UI/Pause_Menu" method="_on_button_return_map_pressed"]
+[connection signal="pressed" from="UI_Canvas/UI/Pause_Menu/Default/Button_Resume" to="UI_Canvas/UI/Pause_Menu" method="_on_button_resume_pressed"]
+[connection signal="pressed" from="UI_Canvas/UI/Pause_Menu/Default/Button_Map" to="UI_Canvas/UI/Pause_Menu" method="_on_button_map_pressed"]
+[connection signal="pressed" from="UI_Canvas/UI/Pause_Menu/Default/Button_Menu" to="UI_Canvas/UI/Pause_Menu" method="_on_button_menu_pressed"]
+[connection signal="pressed" from="UI_Canvas/UI/Pause_Menu/Goto_Menu_Confirm/Button_Menu_Yes" to="UI_Canvas/UI/Pause_Menu" method="_on_button_menu_yes_pressed"]
+[connection signal="pressed" from="UI_Canvas/UI/Pause_Menu/Goto_Menu_Confirm/Button_Menu_No" to="UI_Canvas/UI/Pause_Menu" method="_on_button_menu_no_pressed"]
+[connection signal="pressed" from="UI_Canvas/UI/Pause_Button" to="UI_Canvas/UI/Pause_Menu" method="_on_pause_button_pressed"]
+[connection signal="pressed" from="UI_Canvas/UI/Game_Over/Retry" to="." method="_on_retry_pressed"]
+[connection signal="pressed" from="UI_Canvas/UI/Game_Over/Return_Menu" to="." method="_on_return_menu_pressed"]

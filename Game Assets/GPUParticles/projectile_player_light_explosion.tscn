@@ -1,0 +1,71 @@
+[gd_scene load_steps=7 format=3 uid="uid://q4ujtax36byu"]
+
+[ext_resource type="PackedScene" uid="uid://c318fd7f52rg2" path="res://Game Assets/GPUParticles/instant_particles.tscn" id="1_1ac1v"]
+[ext_resource type="Texture2D" uid="uid://c4cs7b2nv4bdt" path="res://Game Assets/Lights/Light_Round_64.png" id="2_05tum"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ob1af"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+spread = 180.0
+gravity = Vector3(0, 10, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 100.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+
+[sub_resource type="Animation" id="Animation_boscf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("light:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_km800"]
+resource_name = "light_fade"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("light:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gvx44"]
+_data = {
+"RESET": SubResource("Animation_boscf"),
+"light_fade": SubResource("Animation_km800")
+}
+
+[node name="projectile_player_light_explosion" instance=ExtResource("1_1ac1v")]
+amount = 128
+process_material = SubResource("ParticleProcessMaterial_ob1af")
+lifetime = 0.5
+explosiveness = 1.0
+
+[node name="Timer" parent="." index="0"]
+wait_time = 0.5
+
+[node name="light" type="PointLight2D" parent="." index="1"]
+range_layer_min = -512
+range_layer_max = 512
+texture = ExtResource("2_05tum")
+
+[node name="animation" type="AnimationPlayer" parent="." index="2"]
+autoplay = "light_fade"
+libraries = {
+"": SubResource("AnimationLibrary_gvx44")
+}
