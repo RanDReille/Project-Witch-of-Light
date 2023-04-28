@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://b04jfe5hf2hqr"]
+
+[ext_resource type="PackedScene" uid="uid://cmq4w6vrxbniy" path="res://Game Assets/UI/damage_indicator.tscn" id="1_akgy4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_g3pkf"]
+font_color = Color(1, 0, 0, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Damage_Indicator" instance=ExtResource("1_akgy4")]
+
+[node name="Text" parent="." index="0"]
+label_settings = SubResource("LabelSettings_g3pkf")

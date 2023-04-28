@@ -1,0 +1,137 @@
+[gd_scene load_steps=8 format=3 uid="uid://cwihfg3ax5va"]
+
+[ext_resource type="Texture2D" uid="uid://bpiaudi6ndr12" path="res://Game Assets/UI/Emotion.png" id="1_65qso"]
+[ext_resource type="Texture2D" uid="uid://c4cs7b2nv4bdt" path="res://Game Assets/Lights/Light_Round_64.png" id="2_2cxu1"]
+[ext_resource type="Script" path="res://Game Assets/UI/emotion.gd" id="2_voewn"]
+
+[sub_resource type="Animation" id="Animation_3p2va"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_ju2bd"]
+resource_name = "Confused"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [5, 6, 5, 7, 5, 6, 5, 7, 5, 5]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"show"
+}, {
+"args": [],
+"method": &"hide"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["confused"],
+"method": &"play_SFX"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_tmf2j"]
+resource_name = "Surprised"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 3]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"show"
+}, {
+"args": [],
+"method": &"hide"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["surprised"],
+"method": &"play_SFX"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lfhw3"]
+_data = {
+"Confused": SubResource("Animation_ju2bd"),
+"RESET": SubResource("Animation_3p2va"),
+"Surprised": SubResource("Animation_tmf2j")
+}
+
+[node name="Emotion" type="Sprite2D"]
+light_mask = 2
+visibility_layer = 2
+texture = ExtResource("1_65qso")
+hframes = 4
+vframes = 2
+script = ExtResource("2_voewn")
+
+[node name="light" type="PointLight2D" parent="."]
+energy = 0.6
+range_item_cull_mask = 2
+texture = ExtResource("2_2cxu1")
+
+[node name="anim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_lfhw3")
+}

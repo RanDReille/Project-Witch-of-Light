@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cy1syeiird87e"]
+
+[ext_resource type="FontFile" uid="uid://bossgyyp67e12" path="res://Game Assets/UI/Themes/Fonts/GnuUnifontFull-Pm9P.ttf" id="1_3akb5"]
+
+[resource]
+default_font = ExtResource("1_3akb5")
