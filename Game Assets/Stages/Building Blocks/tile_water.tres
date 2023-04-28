@@ -1,0 +1,41 @@
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://bnde77n4va8i6"]
+
+[ext_resource type="Shader" path="res://Game Assets/Stages/Building Blocks/tile_water.gdshader" id="1_m3xnx"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pyoxx"]
+noise_type = 3
+seed = 3
+frequency = 0.005
+fractal_octaves = 1
+domain_warp_fractal_octaves = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2a01d"]
+generate_mipmaps = false
+seamless = true
+seamless_blend_skirt = 1.0
+noise = SubResource("FastNoiseLite_pyoxx")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_qiele"]
+noise_type = 3
+seed = 4
+frequency = 0.005
+fractal_octaves = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_g8dw8"]
+generate_mipmaps = false
+seamless = true
+seamless_blend_skirt = 1.0
+noise = SubResource("FastNoiseLite_qiele")
+
+[resource]
+shader = ExtResource("1_m3xnx")
+shader_parameter/scroll0 = Vector2(0.4, 0.1)
+shader_parameter/scroll1 = Vector2(-0.4, -0.1)
+shader_parameter/distort_power = 0.01
+shader_parameter/color_power = 0.5
+shader_parameter/water_color = Color(0.376471, 0.501961, 0.752941, 1)
+shader_parameter/top_light_low = 0.5
+shader_parameter/top_light_high = 0.8
+shader_parameter/top_light_power = 0.4
+shader_parameter/noise0 = SubResource("NoiseTexture2D_2a01d")
+shader_parameter/noise1 = SubResource("NoiseTexture2D_g8dw8")

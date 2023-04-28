@@ -1,0 +1,80 @@
+[gd_scene load_steps=9 format=3 uid="uid://c2i7g7cgskt8w"]
+
+[ext_resource type="PackedScene" uid="uid://cha28bslust2q" path="res://Game Assets/Stages/Building Blocks/interactibles.tscn" id="1_uscyj"]
+[ext_resource type="Texture2D" uid="uid://wdytv3el3knp" path="res://Game Assets/Stages/Building Blocks/heal_crystal.png" id="2_2vbq8"]
+[ext_resource type="Script" path="res://Game Assets/Stages/Building Blocks/interactible_heal_crystal.gd" id="2_7male"]
+[ext_resource type="Theme" uid="uid://cy1syeiird87e" path="res://Game Assets/UI/Themes/default_unicode.tres" id="4_ea8vk"]
+[ext_resource type="Texture2D" uid="uid://c4cs7b2nv4bdt" path="res://Game Assets/Lights/Light_Round_64.png" id="5_87cdt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ect0"]
+size = Vector2(64, 64)
+
+[sub_resource type="Animation" id="Animation_7e83v"]
+resource_name = "no_save"
+length = 2.0
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"show"
+}, {
+"args": [],
+"method": &"hide"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yyse5"]
+_data = {
+"no_save": SubResource("Animation_7e83v")
+}
+
+[node name="Interactible" instance=ExtResource("1_uscyj")]
+z_index = -1
+script = ExtResource("2_7male")
+
+[node name="HealCrystal" type="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_2vbq8")
+
+[node name="light" type="PointLight2D" parent="HealCrystal" index="0"]
+position = Vector2(0, -24)
+color = Color(0.752941, 1, 0.752941, 1)
+texture = ExtResource("5_87cdt")
+
+[node name="collision" parent="." index="1"]
+shape = SubResource("RectangleShape2D_5ect0")
+
+[node name="Label" type="Label" parent="." index="3"]
+visible = false
+light_mask = 2
+visibility_layer = 2
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_top = -80.0
+offset_right = 64.0
+offset_bottom = -57.0
+grow_horizontal = 2
+theme = ExtResource("4_ea8vk")
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "このバージョンでセーブ機能はありません"
+horizontal_alignment = 1
+
+[node name="light" type="PointLight2D" parent="Label" index="0"]
+position = Vector2(104, 8)
+energy = 0.6
+range_item_cull_mask = 2
+texture = ExtResource("5_87cdt")
+texture_scale = 10.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Label" index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_yyse5")
+}

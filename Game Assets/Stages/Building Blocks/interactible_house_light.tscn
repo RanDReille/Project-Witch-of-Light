@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://hkn4w6xbawde"]
+
+[ext_resource type="PackedScene" uid="uid://cha28bslust2q" path="res://Game Assets/Stages/Building Blocks/interactibles.tscn" id="1_a6q7c"]
+[ext_resource type="Script" path="res://Game Assets/Stages/Building Blocks/interactible_house_light.gd" id="2_uf2bd"]
+[ext_resource type="Texture2D" uid="uid://dlsk03a7gyxqy" path="res://Game Assets/Stages/Building Blocks/House_Light.png" id="2_wjyyx"]
+[ext_resource type="Texture2D" uid="uid://c4cs7b2nv4bdt" path="res://Game Assets/Lights/Light_Round_64.png" id="3_xcssl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ujp12"]
+size = Vector2(128, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5r3i1"]
+size = Vector2(240, 16)
+
+[node name="Interactible" instance=ExtResource("1_a6q7c")]
+z_index = -1
+script = ExtResource("2_uf2bd")
+
+[node name="sprite" type="Sprite2D" parent="." index="0"]
+position = Vector2(0, -16)
+texture = ExtResource("2_wjyyx")
+
+[node name="light_center" type="PointLight2D" parent="sprite" index="0"]
+position = Vector2(0, 40)
+energy = 0.6
+range_z_max = -1
+texture = ExtResource("3_xcssl")
+
+[node name="light_left" type="PointLight2D" parent="sprite" index="1"]
+position = Vector2(-122, 12)
+texture = ExtResource("3_xcssl")
+
+[node name="light_right" type="PointLight2D" parent="sprite" index="2"]
+position = Vector2(122, 12)
+texture = ExtResource("3_xcssl")
+
+[node name="collision" parent="." index="1"]
+visible = false
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_ujp12")
+
+[node name="prompt" parent="." index="2"]
+offset_top = -64.0
+offset_bottom = -52.0
+
+[node name="Platform" type="StaticBody2D" parent="." index="3"]
+collision_layer = 4
+collision_mask = 0
+
+[node name="collision" type="CollisionShape2D" parent="Platform" index="0"]
+position = Vector2(0, 40)
+shape = SubResource("RectangleShape2D_5r3i1")
+one_way_collision = true

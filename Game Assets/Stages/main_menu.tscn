@@ -1,0 +1,122 @@
+[gd_scene load_steps=8 format=3 uid="uid://ypxso3g1oc2y"]
+
+[ext_resource type="Script" path="res://Game Assets/Stages/main_menu.gd" id="1_4nor4"]
+[ext_resource type="Texture2D" uid="uid://dwsx8rq0ngosa" path="res://Game Assets/UI/Button_MainMenu.png" id="1_djfna"]
+[ext_resource type="Theme" uid="uid://cy1syeiird87e" path="res://Game Assets/UI/Themes/default_unicode.tres" id="1_kaarq"]
+[ext_resource type="Texture2D" uid="uid://dewstqne4ittu" path="res://Game Assets/UI/BG_MainMenu.png" id="2_duxuc"]
+[ext_resource type="Texture2D" uid="uid://cloypujecvnod" path="res://Game Assets/UI/Button_MainMenu_Pressed.png" id="2_x3lil"]
+[ext_resource type="Texture2D" uid="uid://bobdl8aoldcjp" path="res://Game Assets/UI/Button_MainMenu_Highlight.png" id="3_ckuf1"]
+[ext_resource type="Texture2D" uid="uid://d38omygrlqq2v" path="res://Game Assets/UI/Button_MainMenu_Disabled.png" id="4_kkiik"]
+
+[node name="Main_Menu" type="Node2D"]
+script = ExtResource("1_4nor4")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI_BG" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_kaarq")
+texture = ExtResource("2_duxuc")
+
+[node name="Button_Start" type="TextureButton" parent="CanvasLayer/UI_BG"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -16.0
+offset_right = 128.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("1_djfna")
+texture_pressed = ExtResource("2_x3lil")
+texture_hover = ExtResource("3_ckuf1")
+texture_disabled = ExtResource("4_kkiik")
+
+[node name="Label" type="Label" parent="CanvasLayer/UI_BG/Button_Start"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "ニューゲーム"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_group_ = true
+
+[node name="Button_Continue" type="TextureButton" parent="CanvasLayer/UI_BG"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = 20.0
+offset_right = 128.0
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+disabled = true
+texture_normal = ExtResource("1_djfna")
+texture_pressed = ExtResource("2_x3lil")
+texture_hover = ExtResource("3_ckuf1")
+texture_disabled = ExtResource("4_kkiik")
+
+[node name="Label" type="Label" parent="CanvasLayer/UI_BG/Button_Continue"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "コンティニュー"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_group_ = true
+
+[node name="Temp_Title" type="ColorRect" parent="CanvasLayer/UI_BG"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -100.0
+offset_right = 128.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/UI_BG/Temp_Title"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -8.0
+offset_right = 20.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "光の魔女プロジェクト（仮）"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="CanvasLayer/UI_BG/Button_Start" to="." method="_on_button_start_pressed"]

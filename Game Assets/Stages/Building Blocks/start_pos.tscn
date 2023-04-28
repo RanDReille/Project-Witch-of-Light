@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ds3s3jr8ty5vv"]
+
+[ext_resource type="Script" path="res://Game Assets/Stages/Building Blocks/start_pos.gd" id="1_kh8sc"]
+
+[node name="Start_Pos" type="Marker2D"]
+script = ExtResource("1_kh8sc")

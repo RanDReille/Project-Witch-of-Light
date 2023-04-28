@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://tkp5m3mpatj"]
+
+[ext_resource type="Script" path="res://Game Assets/Stages/event_player.gd" id="1_ewjx2"]
+
+[node name="Event_Player" type="AnimationPlayer"]
+script = ExtResource("1_ewjx2")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

@@ -1,0 +1,37 @@
+[gd_resource type="ShaderMaterial" load_steps=6 format=3]
+
+[ext_resource type="Shader" path="res://Game Assets/Stages/Building Blocks/tile_water_old.gdshader" id="1_m3xnx"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_np57v"]
+noise_type = 0
+seed = 9
+frequency = 0.001
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_36hc4"]
+width = 16
+height = 16
+seamless = true
+seamless_blend_skirt = 1.0
+noise = SubResource("FastNoiseLite_np57v")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_7ucpp"]
+noise_type = 0
+seed = 1
+frequency = 0.001
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4g630"]
+width = 16
+height = 16
+seamless = true
+seamless_blend_skirt = 1.0
+noise = SubResource("FastNoiseLite_7ucpp")
+
+[resource]
+shader = ExtResource("1_m3xnx")
+shader_parameter/water_color = Quaternion(0.2, 0.5, 0.8, 1)
+shader_parameter/color_strength = 0.5
+shader_parameter/distort_power = 0.01
+shader_parameter/oscillate_speed = 2.0
+shader_parameter/oscillate_power = 0.01
+shader_parameter/noisex = SubResource("NoiseTexture2D_36hc4")
+shader_parameter/noisey = SubResource("NoiseTexture2D_4g630")
